@@ -40,6 +40,12 @@ class Ctoc extends CI_Controller {
 	  $data['contenido']='ingreso_view';
 	  $this->load->view('index',$data); 
 	 }	
+
+	 public function recoverypass()
+	 {
+	  $data['contenido']='password_view';
+	  $this->load->view('index',$data); 
+	 }
 	 
 	 /////////////////////////////////////////////////////////////////////////////////////
 	 //////////////////////CARPETA PRINCIPAL ///////////////////////////////////////////

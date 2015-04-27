@@ -30,6 +30,22 @@
 						<input type="email" id="correo" class="input-xlarge" placeholder="E-mail" name="correo" value="<?php echo set_value('correo'); ?>"></input>            
 						</div>
 					</div>
+
+					<div class="control-group">
+						<!-- Password-->
+						<div class="controls">
+						<label for="username">Ingresa tu nueva Contraseña:</label>
+						<input type="password" id="password" class="input-xlarge" name="contra" value="<?php echo set_value('contra'); ?>"/>            
+						</div>
+					</div>
+
+					<div class="control-group">
+						<!-- Password -->
+						<div class="controls">
+						<label for="username">Repetir Contraseña:</label>
+						<input type="password" class="input-xlarge" id="password_confirm" name="contra2" value="<?php echo set_value('contra2'); ?>"/>            
+						</div>
+					</div>
 				
 				
 			</div> 

@@ -16,6 +16,8 @@ function index()
    $this->load->library('form_validation');
 
    $this->form_validation->set_rules('correo', 'E-mail','trim|required|xss_clean|callback_busca_usuario');
+   $this->form_validation->set_rules('contra','Contraseña','required|trim|xss_clean|min_length[5]');
+   $this->form_validation->set_rules('contra2','Repetir contraseña','required|trim|xss_clean|min_length[5]|matches[contra]');
 
    if($this->form_validation->run() == FALSE)
    {
@@ -25,7 +27,7 @@ function index()
    }
    else
    {                     
-       redirect('ctoc');
+       redirect('ctoc', 'refresh');
    }
 
  }
@@ -34,17 +36,15 @@ function index()
  {
    //Validación de campo tuvo éxito. Validar contra la base de datos
    $usuario = $this->input->post('correo');           
+   $clave = $this->input->post('contra');
    //consultar la base de datos
-   $result = $this->muser->busca_usuario($usuario);
+   $result = $this->muser->consulta_user($usuario);
 
    if($result)
-   {      
-      foreach($result as $row)
-      {    
-         $correo_e = $row->atu_correo;
-         $pass = $row->atu_clave;                                  
-      }   
-           
+   {          
+      $actualizar = $this->muser->update_pass($usuario, $clave);
+      if ($actualizar) {
+       
       /*EMPIEZO A CONFIGURAR EL CORREO */
         $config = Array(
             'protocol' => 'smtp',
@@ -65,11 +65,13 @@ function index()
         $this->email->message('<h3>Tu cuenta de acceso y la contraseña que nos proporcionaste son las siguientes.</h3>
                               <hr>                                  
                               <p>Por favor, conserva este correo para posterior consulta:</p>
-                              <p><strong>Usuario: ' . $correo_e. '</strong></p>
-                              <p><strong>Contraseña: ' . $pass . ' </strong></p>
+                              <p><strong>Usuario: ' . $usuario. '</strong></p>
+                              <p><strong>Contraseña: ' . $clave . ' </strong></p>
                               '); 
         $this->email->send();             
       return TRUE;
+       # code...
+      }
     }
     else{
       $this->form_validation->set_message('busca_usuario', 'El usuario no se encuentra registrado');

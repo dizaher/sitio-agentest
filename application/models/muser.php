@@ -22,15 +22,15 @@ class Muser extends CI_Model
        	return $this->db->insert('at_users', $data);	
     }
 
-    function consulta_user($correo)
+    function consulta_user($usuario)
 	 {
-	   	$query = $this->db->get_where('at_users',array('atu_correo' => $correo));
+	   	$query = $this->db->get_where('at_users',array('atu_correo' => $usuario));
         if($query->num_rows() > 0 )
         {
-            return false;
+            return true;
         }
         else{
-        	return true;
+        	return false;
         }
 	 }
 
@@ -51,4 +51,13 @@ class Muser extends CI_Model
          return false;
        }
      }
+
+     function update_pass($usuario, $clave)
+   {
+      $data = array(
+            'atu_clave' => md5($clave)            
+      );
+      $this->db->where('atu_correo', $usuario);
+      return $this->db->update('at_users', $data);
+   }
 }
